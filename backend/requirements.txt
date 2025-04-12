@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+elasticsearch==7.17.12 # Match client version to server if possible
+python-dotenv # Optional: Good practice for managing config like ES host
+uuid # Standard library, but good to note dependency

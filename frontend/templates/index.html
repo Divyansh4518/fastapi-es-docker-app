@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Elasticsearch Frontend</title>
+</head>
+<body>
+    <h1>Elasticsearch Interface</h1>
+
+    <h2>Search Documents</h2>
+    <form action="/search" method="post">
+        <label for="query">Search Query:</label>
+        <input type="text" id="query" name="query" required>
+        <button type="submit">Get Best Match</button>
+    </form>
+
+    <h2>Insert Document</h2>
+    <form action="/insert" method="post">
+        <label for="text">Document Text:</label><br>
+        <textarea id="text" name="text" rows="10" cols="50" required></textarea><br>
+        <button type="submit">Insert Document</button>
+    </form>
+
+    <hr>
+
+    <h2>Results / Status</h2>
+    <div id="output">
+        <pre>{{ message | safe }}</pre>
+    </div>
+
+</body>
+</html>

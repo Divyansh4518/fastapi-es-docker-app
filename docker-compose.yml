@@ -1,0 +1,61 @@
+version: '3.8' # Specify compose file version
+
+services:
+  elasticsearch-service:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.15
+    container_name: elasticsearch-service # Service name matches hostname used in backend
+    environment:
+      - discovery.type=single-node
+      - http.port=9567 # Internal port for ES
+      - xpack.security.enabled=false # Disable security for simplicity (dev only)
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Limit RAM usage
+    volumes:
+      - es-data:/usr/share/elasticsearch/data # Mount named volume for persistence
+    networks:
+      - app-network
+    # No ports published to host - internal service only
+    # Add healthcheck for better startup orchestration (optional but good)
+    healthcheck:
+        test: ["CMD-SHELL", "curl -s http://localhost:9567/_cluster/health?wait_for_status=yellow&timeout=5s || exit 1"]
+        interval: 10s
+        timeout: 10s
+        retries: 5
+
+  backend:
+    build: ./backend # Build the image from the backend directory
+    container_name: backend # Service name matches hostname used in frontend
+    depends_on:
+      elasticsearch-service: # Wait for ES to be healthy before starting backend
+        condition: service_healthy
+    environment:
+      # Pass ES host to backend (using service name from this file)
+      - ELASTICSEARCH_HOST=http://elasticsearch-service:9567
+      # Make Python output unbuffered (shows logs immediately)
+      - PYTHONUNBUFFERED=1
+    networks:
+      - app-network
+    # No ports published to host - internal service only
+    # Expose internal port for documentation/clarity (optional)
+    expose:
+      - "8001"
+
+  frontend:
+    build: ./frontend # Build the image from the frontend directory
+    container_name: frontend
+    depends_on:
+      - backend # Wait for backend (which waits for ES)
+    environment:
+      # Pass Backend URL to frontend (using service name from this file)
+      - BACKEND_URL=http://backend:8001
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "9567:8000" # Publish host port 9567 -> container port 8000
+    networks:
+      - app-network
+
+volumes:
+  es-data: # Define the named volume used by Elasticsearch
+
+networks:
+  app-network: # Define the custom bridge network
+    driver: bridge

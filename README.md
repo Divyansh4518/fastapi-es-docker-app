@@ -45,6 +45,7 @@ The application consists of three main services running in separate Docker conta
 *   Fully containerized setup using Docker Compose.
 
 ## Directory Structure
+```
 .
 ├── .gitignore
 ├── backend/
@@ -59,6 +60,7 @@ The application consists of three main services running in separate Docker conta
 │ └── templates/
 │ └── index.html
 └── README.md
+```
 
 ## Prerequisites
 

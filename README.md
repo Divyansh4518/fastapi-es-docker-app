@@ -12,7 +12,7 @@ The application consists of three main services running in separate Docker conta
     *   Listens internally on port `8000`.
     *   Exposed to the host machine on port `9567`.
     *   Communicates with the `backend` service over the internal Docker network.
-    *   Docker Image: `yourdockerhubuser/fastapi:1` (or built locally via Compose)
+    *   Docker Image: `fastapi:1` (built locally via Compose)
 
 2.  **Backend (`backend` service):**
     *   A FastAPI application providing a REST API.
@@ -20,7 +20,7 @@ The application consists of three main services running in separate Docker conta
     *   Listens internally on port `8001`.
     *   *Not* exposed directly to the host machine.
     *   Communicates with the `elasticsearch-service` over the internal Docker network.
-    *   Docker Image: `yourdockerhubuser/fastapi:2` (or built locally via Compose)
+    *   Docker Image: `fastapi:2` (built locally via Compose)
 
 3.  **Elasticsearch (`elasticsearch-service` service):**
     *   Official Elasticsearch 7.17.15 container.
@@ -28,7 +28,7 @@ The application consists of three main services running in separate Docker conta
     *   Listens internally on port `9567`.
     *   *Not* exposed directly to the host machine.
     *   Uses a Docker named volume (`es-data`) for persistent data storage.
-    *   Docker Image: `docker.elastic.co/elasticsearch/elasticsearch:7.17.15` (tagged as `yourdockerhubuser/elasticsearch:latest` for push)
+    *   Docker Image: `docker.elastic.co/elasticsearch/elasticsearch:7.17.15` (tagged as `elasticsearch:latest` for push)
 
 *   **Network (`app-network`):** A custom Docker bridge network allowing containers to communicate using service names.
 *   **Volume (`es-data`):** Persists Elasticsearch data even if the container is removed and recreated.
@@ -72,8 +72,8 @@ The application consists of three main services running in separate Docker conta
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-github-username/your-repo-name.git
-    cd your-repo-name
+    git clone https://github.com/Divyansh4518/fastapi-es-docker-app.git
+    cd fastapi-es-docker-app
     ```
 
 2.  **Build and Start Containers:**
@@ -164,9 +164,9 @@ If you want to push the built images to Docker Hub:
     # docker push yourdockerhubuser/elasticsearch:latest
     ```
 
-*   Frontend Image: [https://hub.docker.com/r/yourdockerhubuser/fastapi](https://hub.docker.com/r/yourdockerhubuser/fastapi) (Replace with your link)
-*   Backend Image: (Same repo, different tag): [https://hub.docker.com/r/yourdockerhubuser/fastapi](https://hub.docker.com/r/yourdockerhubuser/fastapi) (Replace with your link)
-*   Elasticsearch Image: [https://hub.docker.com/r/yourdockerhubuser/elasticsearch](https://hub.docker.com/r/yourdockerhubuser/elasticsearch) (Replace with your link)
+*   Frontend Image: [https://hub.docker.com/r/divyansh0045/fastapi](https://hub.docker.com/repository/docker/divyansh0045/fastapi/tags/1/)
+*   Backend Image: (Same repo, different tag): [https://hub.docker.com/r/divyansh0045/fastapi](https://hub.docker.com/repository/docker/divyansh0045/fastapi/tags/2/)
+*   Elasticsearch Image: [https://hub.docker.com/repository/docker/divyansh0045/elasticsearch/general](https://hub.docker.com/repository/docker/divyansh0045/elasticsearch/general)
 
 ## Cleanup
 
